@@ -1,4 +1,4 @@
-package mensa_wue
+package mensa_menu_wuerzburg
 
 import (
 	"slices"

@@ -1,4 +1,4 @@
-package mensa_wue
+package mensa_menu_wuerzburg
 
 import (
 	"encoding/json"
@@ -27,20 +27,20 @@ func getRawMenu(mensa string) *html.Node {
 	return node
 }
 
-func processData(node *html.Node) Menu {
+func processData(node *html.Node) menu {
 
-	menu := Menu{}
+	menu := menu{}
 
 	hero := getNextChildWithClass(node, "hero")
 	menu.Mensa = getNextChildOfElementType(hero, "h1").FirstChild.Data
 
 	for _, m := range getAllChildrenWithClass(node, "day-menu") {
-		dayMenu := DayMenu{}
+		dayMenu := dayMenu{}
 		dayMenu.Date = getValueByKey(m.Attr, "data-day")
 
 		entries := getNextChildWithClass(m, "day-menu-entries")
 		for _, e := range getDirectChildrenOfElementType(entries, "article") {
-			food := Food{}
+			food := food{}
 
 			types := getNextChildWithClass(e, "food-type")
 			for _, t := range getDirectChildrenOfElementType(types, "span") {
@@ -49,7 +49,7 @@ func processData(node *html.Node) Menu {
 
 			food.Name = getNextChildOfElementType(e, "h5").FirstChild.Data
 			prices := getNextChildWithClass(e, "price")
-			food.Price = Price{
+			food.Price = price{
 				Students: getValueByKey(prices.Attr, "data-price-student") + "€",
 				Servants: getValueByKey(prices.Attr, "data-price-servant") + "€",
 				Guests:   getValueByKey(prices.Attr, "data-price-guest") + "€",
@@ -70,7 +70,7 @@ func processData(node *html.Node) Menu {
 	return menu
 }
 
-func getMenu(mensa string) []byte {
+func GetMenu(mensa string) []byte {
 	rawMenu := getRawMenu(mensa)
 	menu := processData(rawMenu)
 

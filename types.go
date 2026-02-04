@@ -1,6 +1,6 @@
-package mensa_wue
+package mensa_menu_wuerzburg
 
-type Mensas struct {
+type mensas struct {
 	JOSEF_SCHNEIDER_STRASSE string
 	ROENTGENRING            string
 	STUDENTENHAUS           string
@@ -8,7 +8,7 @@ type Mensas struct {
 	HUBLAND_SUED            string
 }
 
-var Mensa = Mensas{
+var Mensa = mensas{
 	JOSEF_SCHNEIDER_STRASSE: "mensa-josef-schneider-strasse-wuerzburg",
 	ROENTGENRING:            "mensa-roentgenring-wuerzburg",
 	STUDENTENHAUS:           "mensa-am-studentenhaus-wuerzburg",
@@ -16,30 +16,30 @@ var Mensa = Mensas{
 	HUBLAND_SUED:            "mensa-campus-hubland-sued",
 }
 
-type Price struct {
+type price struct {
 	Students string `json:"students"`
 	Servants string `json:"servants"`
 	Guests   string `json:"guests"`
 }
 
-type Info struct {
+type info struct {
 	IsClimatePlate bool   `json:"isClimatePlate"`
 	Energy         string `json:"energy"`
 }
 
-type Food struct {
+type food struct {
 	Name  string   `json:"name"`
-	Price Price    `json:"price"`
+	Price price    `json:"price"`
 	Types []string `json:"types"`
-	Info  Info     `json:"info"`
+	Info  info     `json:"info"`
 }
 
-type DayMenu struct {
+type dayMenu struct {
 	Date    string `json:"date"`
-	Options []Food `json:"options"`
+	Options []food `json:"options"`
 }
 
-type Menu struct {
+type menu struct {
 	Mensa string    `json:"mensa"`
-	Menus []DayMenu `json:"menus"`
+	Menus []dayMenu `json:"menus"`
 }
