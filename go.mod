@@ -1,4 +1,4 @@
-module github.com/isathecatgirl/mensa_wue
+module github.com/isathecatgirl/mensa-menu-wuerzburg
 
 go 1.25.6
 
