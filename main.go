@@ -1,9 +1,9 @@
 package mensa_menu_wuerzburg
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"golang.org/x/net/html"
 )
@@ -27,20 +27,22 @@ func getRawMenu(mensa string) *html.Node {
 	return node
 }
 
-func processData(node *html.Node) menu {
+func processData(node *html.Node) Menu {
 
-	menu := menu{}
+	menu := Menu{}
 
 	hero := getNextChildWithClass(node, "hero")
 	menu.Mensa = getNextChildOfElementType(hero, "h1").FirstChild.Data
 
 	for _, m := range getAllChildrenWithClass(node, "day-menu") {
-		dayMenu := dayMenu{}
-		dayMenu.Date = getValueByKey(m.Attr, "data-day")
+		dayMenu := DayMenu{}
+
+		day, _ := strconv.Atoi(getValueByKey(m.Attr, "data-day"))
+		dayMenu.Date = getDateByCalendarDay(day)
 
 		entries := getNextChildWithClass(m, "day-menu-entries")
 		for _, e := range getDirectChildrenOfElementType(entries, "article") {
-			food := food{}
+			food := Food{}
 
 			types := getNextChildWithClass(e, "food-type")
 			for _, t := range getDirectChildrenOfElementType(types, "span") {
@@ -49,7 +51,7 @@ func processData(node *html.Node) menu {
 
 			food.Name = getNextChildOfElementType(e, "h5").FirstChild.Data
 			prices := getNextChildWithClass(e, "price")
-			food.Price = price{
+			food.Price = Price{
 				Students: getValueByKey(prices.Attr, "data-price-student") + "€",
 				Servants: getValueByKey(prices.Attr, "data-price-servant") + "€",
 				Guests:   getValueByKey(prices.Attr, "data-price-guest") + "€",
@@ -70,15 +72,9 @@ func processData(node *html.Node) menu {
 	return menu
 }
 
-func GetMenu(mensa string) []byte {
+func GetMenu(mensa string) Menu {
 	rawMenu := getRawMenu(mensa)
 	menu := processData(rawMenu)
 
-	json, err := json.Marshal(menu)
-	if err != nil {
-		fmt.Println("Error processing menu:", err)
-		return nil
-	}
-
-	return json
+	return menu
 }

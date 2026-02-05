@@ -3,12 +3,12 @@ package mensa_menu_wuerzburg
 import (
 	"slices"
 	"strings"
+	"time"
 
 	"golang.org/x/net/html"
 )
 
 func getNextChildOfElementType(node *html.Node, element string) *html.Node {
-
 	if node.Data == element {
 		return node
 	}
@@ -90,4 +90,15 @@ func getValueByKey(attributes []html.Attribute, key string) string {
 	}
 
 	return ""
+}
+
+func getDateByCalendarDay(day int) Date {
+	berlinTime, _ := time.LoadLocation("Europe/Berlin")
+	t := time.Date(time.Now().Year(), 1, 1, 0, 0, 0, 0, berlinTime)
+	t = t.AddDate(0, 0, int(day))
+
+	return Date{
+		Day:   t.Day(),
+		Month: int(t.Month()),
+	}
 }

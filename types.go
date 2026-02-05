@@ -16,30 +16,35 @@ var Mensa = mensas{
 	HUBLAND_SUED:            "mensa-campus-hubland-sued",
 }
 
-type price struct {
+type Price struct {
 	Students string `json:"students"`
 	Servants string `json:"servants"`
 	Guests   string `json:"guests"`
 }
 
-type info struct {
+type Info struct {
 	IsClimatePlate bool   `json:"isClimatePlate"`
 	Energy         string `json:"energy"`
 }
 
-type food struct {
+type Food struct {
 	Name  string   `json:"name"`
-	Price price    `json:"price"`
+	Price Price    `json:"price"`
 	Types []string `json:"types"`
-	Info  info     `json:"info"`
+	Info  Info     `json:"info"`
 }
 
-type dayMenu struct {
-	Date    string `json:"date"`
-	Options []food `json:"options"`
+type Date struct {
+	Day   int `json:"day"`
+	Month int `json:"month"`
 }
 
-type menu struct {
+type DayMenu struct {
+	Date    Date   `json:"date"`
+	Options []Food `json:"options"`
+}
+
+type Menu struct {
 	Mensa string    `json:"mensa"`
-	Menus []dayMenu `json:"menus"`
+	Menus []DayMenu `json:"menus"`
 }
